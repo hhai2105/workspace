@@ -1,13 +1,13 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
 const workspaceSchema = new Schema({
-	title: {type: String, required: true},
+	name: {type: String, unique: true, required: true},
 }, {
 	timestamps: false
 });
 
 const Workspace = mongoose.model('Workspace', workspaceSchema);
 
-module.exports = Workspace;
+export default Workspace
