@@ -1,26 +1,36 @@
-import React from 'react';
-import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css"
-import {Switch} from "react-router";
+import React, { useEffect } from 'react';
+import { Container, AppBar, Typography, Grow, Grid} from '@mui/material';
+import {useDispatch} from 'react-redux';
 
-import NavBar from './components/navbar.component';
-import ListPost from './components/list-post.component'
-import EditPost from './components/edit-post.component';
-import CreatePost from './components/create-post.component';
-import CreateUser from './components/create-user.component';
+import { getWindows } from './actions/windows'
+import Windows from './components/Windows/Windows'
+import Form from './components/WindowsForm/Form'
 
 function App() {
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(getWindows());
+	}, [dispatch]);
 	return (
-		<Router>
-			<NavBar />
+		<Container>
+			<AppBar position="static" color="inherit">
+				<Typography variant="h2" align="center">Memories</Typography>
+			</AppBar>
 			<br/>
-				<Routes>
-					<Route path="/" element={<ListPost/>} />
-					<Route path="/user"  element={<CreateUser/>} />
-					<Route path="/create" element= {<CreatePost/>} />
-					<Route path="/edit/:id" element={<EditPost/>} />
-				</Routes>
-		</Router>
+			<Grow in>
+			<Container>
+					<Grid container justify="space-between" alignItems="stretch" spacing={3}>
+						<Grid item xs={12} sm={7}>
+							<Windows />
+						</Grid>
+						<Grid item xs={12} sm={4}>
+							<Form />
+						</Grid>
+					</Grid>
+				</Container>
+			</Grow>
+		</Container>
 	);
 }
 
