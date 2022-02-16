@@ -24,7 +24,8 @@ export const addWindows = async (req,res) => {
 	const workspace = req.body.workspace;
 	const type = req.body.type;
 	const data = req.body.data;
-	const newWindow = new Window({username, type, data});
+	const file = req.body.file;
+	const newWindow = new Window({workspace, type, data, file});
 	try {
 		await newWindow.save();
 		res.status(201).json(newWindow);
@@ -37,7 +38,7 @@ export const addWindows = async (req,res) => {
 export const deleteWindows = async (req, res) =>{
 	try{
 		const message = await Window.findByIdAndDelete(req.params.id);
-		res.json('Window deleted');
+		res.json(req.params.id);
 	}catch(err){
 		res.status(400).json("error: " + err);
 	}
@@ -49,6 +50,7 @@ export const updateWindows = async (req, res) =>{
 		window.username = req.body.username;
 		window.type = req.body.type;
 		window.data = req.body.data;
+		windows.file = req.body.file;
 		message =await window.save();
 		res.json('post updated');
 	}catch(err){
