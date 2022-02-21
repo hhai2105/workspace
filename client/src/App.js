@@ -2,35 +2,26 @@ import React, { useEffect } from 'react';
 import { Container, AppBar, Typography, Grow, Grid} from '@mui/material';
 import {useDispatch} from 'react-redux';
 
-import { getWindows } from './actions/windows'
-import Windows from './components/Windows/Windows'
-import Form from './components/WindowsForm/Form'
+import { getNotes } from './actions/notes'
+import { getWorkspaces } from './actions/workspaces'
+import Workspaces from './components/Workspaces/Workspaces'
+import WorkspaceForm from './components/WorkspacesForm/Form'
+import { Box } from '@mui/material'
 
 function App() {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		dispatch(getWindows());
+		dispatch(getWorkspaces());
 	}, [dispatch]);
+
 	return (
-		<Container>
-			<AppBar position="static" color="inherit">
-				<Typography variant="h2" align="center">Memories</Typography>
-			</AppBar>
-			<br/>
-			<Grow in>
-			<Container>
-					<Grid container justify="space-between" alignItems="stretch" spacing={3}>
-						<Grid item xs={12} sm={7}>
-							<Windows />
-						</Grid>
-						<Grid item xs={12} sm={4}>
-							<Form />
-						</Grid>
-					</Grid>
-				</Container>
-			</Grow>
-		</Container>
+		<AppBar position="fixed"  variant="dense">
+			<Box sx={{ flexGrow: 0, display: { xs: 'flex', md: 'flex' } }}>
+				<Workspaces/>
+				<WorkspaceForm/>
+			</Box>
+		</AppBar>
 	);
 }
 
