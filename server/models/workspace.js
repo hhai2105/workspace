@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const workspaceSchema = new Schema({
-	name: {type: String, unique: true, required: true},
+	name: {type: String, required: true}
 }, {
 	timestamps: false
 });
