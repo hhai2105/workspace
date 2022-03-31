@@ -9,9 +9,10 @@ import Home from './components/Home/Home.jsx'
 
 function App() {
 	const dispatch = useDispatch();
+
 	useEffect(() => {
 		dispatch(getWorkspaces());
-	}, [dispatch]);
+	});
 
 	return (
 		<BrowserRouter>
