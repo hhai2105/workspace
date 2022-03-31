@@ -3,8 +3,9 @@ import * as api from '../api/Workspace.js';
 
 export const getWorkspaces = () => async (dispatch) => {
 	try {
+		console.log("get workspaces")
 		const { data } = await api.getWorkspaces();
-		dispatch({ type: FETCH_ALL, data });
+		dispatch({ type: FETCH_ALL, payload: data });
 	} catch (error) {
 		console.log(error);
 	}

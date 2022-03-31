@@ -1,10 +1,10 @@
 import { AUTH } from '../constants/actions.js';
 import * as api from '../api/Auth.js';
-export const signin = (formData, router) => async (dispatch) => {
+export const signin = (formData, navigate) => async (dispatch) => {
 	try {
 		const { data } = await api.signIn(formData);
-		dispatch({ type: AUTH, data });
-		router.push('/');
+		dispatch({ type: AUTH, payload: data });
+		navigate()("/");
 	} catch (error) {
 		console.log(error);
 	}
