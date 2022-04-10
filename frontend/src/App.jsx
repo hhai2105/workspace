@@ -10,9 +10,11 @@ import Home from './components/Home/Home.jsx'
 function App() {
 	const dispatch = useDispatch();
 
-	useEffect(() => {
-		dispatch(getWorkspaces());
-	});
+	if(localStorage.getItem('profile')){
+		useEffect(() => {
+			dispatch(getWorkspaces());
+		});
+	}
 
 	return (
 		<BrowserRouter>

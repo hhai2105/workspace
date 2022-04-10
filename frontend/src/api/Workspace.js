@@ -1,8 +1,15 @@
 import axios from 'axios';
 
-const server = axios.create({ baseURL: 'http://localhost:5000' });
+const instance = axios.create({ baseURL: 'http://localhost:5000' });
 
-export const getWorkspaces = () => server.get('/workspaces');
-export const createWorkspace = (newWorkspace) => server.post('/workspaces', newWorkspace);
-export const updateWorkspace = (id, updateWorkspace) => server.patch(`/workspaces/${id}`, updateWorkspace);
-export const deleteWorkspace = (id) => server.delete(`/workspaces/${id}`);
+instance.interceptors.request.use((req) => {
+	if(localStorage.getItem('profile')){
+		req.headers.Authorization = `Bearer ${JSON.parse(localStorage.getItem('profile')).token}`;
+	}
+	return req;
+});
+
+export const getWorkspaces = () => instance.get('/workspaces');
+export const createWorkspace = (newWorkspace) => instance.post('/workspaces/add', newWorkspace);
+export const updateWorkspace = (updateWorkspace) => instance.patch(`/workspaces/update`, updateWorkspace);
+export const deleteWorkspace = (deleteWorkspace) => instance.delete(`/workspaces/delete`);

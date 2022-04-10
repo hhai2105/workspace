@@ -17,16 +17,21 @@ function Auth(){
     const [hasFailed, setHasFailed] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
 
-    const initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: '' };
+    const initialState = { familyName: '', givenName: '', email: '', password: '', confirmPassword: '' };
     const [form, setForm] = useState(initialState);
 
     function handleSubmit(e){
         e.preventDefault();
-        if(isSignup){
-            dispatch(signup(form, ()=>navigate));
-        }else{
-            dispatch(signin(form, ()=>navigate));
-            setHasFailed(true);
+	if(isSignup){
+	    dispatch(signup(form, ()=>navigate));
+	}else{
+	    dispatch(signin(form)).then(() => {
+                if(localStorage.getItem('profile')){
+                    navigate("/")
+                }else{
+                    setHasFailed(true)
+                }
+            })
         }
     }
 
@@ -45,7 +50,7 @@ function Auth(){
         const result = res?.profileObj;
         const token = res?.tokenId;
         try{
-            dispatch({type: AUTH, data: {result, token}});
+            dispatch({type: AUTH, payload: {result, token}});
             navigate("/")
         }catch(err){
             console.log(err);
@@ -68,8 +73,8 @@ function Auth(){
                     {isSignup && (
                         <>
                             <Grid container>
-                                <TextField name="firstname" label="first name" onChange={handleChange} half="true" sx={{m: 1}} />
-                                <TextField name="lastname" label="last name" onChange={handleChange} half="true" sx={{m: 1}} />
+                                <TextField name="familyName" label="family name" onChange={handleChange} half="true" sx={{m: 1}} />
+                                <TextField name="givenName" label="givenName" onChange={handleChange} half="true" sx={{m: 1}} />
                             </Grid>
                         </>
                     )}
@@ -112,7 +117,7 @@ function Auth(){
                 </Paper>
             </Grid>
         </form>
-    )
+)
 }
 
 export default Auth
