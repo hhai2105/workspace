@@ -1,10 +1,9 @@
 import {Typography} from '@mui/material'
+import Bins from './../Bins/Bins.jsx'
 
 function Home(){
 	return(
-		<Typography>
-			Home
-		</Typography>
+            <Bins/>
 	)
 }
 export default Home

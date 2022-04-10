@@ -3,8 +3,9 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const workspaceSchema = new Schema({
-	name: {type: String, required: true},
-	bins: [String]
+    users: [],
+    bins: [],
+    name: {type: String, required: true}
 }, {
 	timestamps: false
 });

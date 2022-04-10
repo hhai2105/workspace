@@ -1,11 +1,12 @@
 import express from 'express';
 const router = express.Router();
-import { getWorkspaces, getWorkspace, createWorkspace, deleteWorkspace, updateWorkspace} from '../controllers/workspaces.js';
+import { getWorkspaces, createWorkspace, deleteWorkspace, updateWorkspace} from '../controllers/workspaces.js';
 
-router.route('/').get(getWorkspaces);
-router.route('/:id').get(getWorkspace);
-router.route('/add').post(createWorkspace);
-router.route('/delete/:id').delete(deleteWorkspace);
-router.route('/update/:id').post(updateWorkspace);
+import auth from '../middleware/auth.js'
+
+router.get('/', auth, getWorkspaces);
+router.post('/add',auth, createWorkspace);
+router.delete('/delete/:id', auth, deleteWorkspace);
+router.post('/update', auth, updateWorkspace);
 
 export default router;

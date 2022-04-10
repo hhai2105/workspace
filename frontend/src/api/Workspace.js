@@ -11,5 +11,7 @@ instance.interceptors.request.use((req) => {
 
 export const getWorkspaces = () => instance.get('/workspaces');
 export const createWorkspace = (newWorkspace) => instance.post('/workspaces/add', newWorkspace);
-export const updateWorkspace = (updateWorkspace) => instance.patch(`/workspaces/update`, updateWorkspace);
-export const deleteWorkspace = (deleteWorkspace) => instance.delete(`/workspaces/delete`);
+export const updateWorkspace = (workspace) => instance.patch(`/workspaces/update`, workspace);
+export const deleteWorkspace = (id) => instance.delete(`/workspaces/delete/${id}`);   
+
+

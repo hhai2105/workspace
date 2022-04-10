@@ -1,4 +1,4 @@
-import { FETCH_ALL, CREATE, DELETE } from '../constants/actions.js';
+import { FETCH_ALL, OPEN, CREATE, DELETE } from '../constants/actions.js';
 import * as api from '../api/Workspace.js';
 
 export const getWorkspaces = () => async (dispatch) => {
@@ -20,11 +20,20 @@ export const createWorkspace = (formData) => async (dispatch) => {
     }
 };
 
-export const deleteWorkspace = (workspace) => async (dispatch) => {
+export const deleteWorkspace = (formData) => async (dispatch) => {
     try {
-	const { data } = await api.deleteWorkspace({});
-	dispatch({ type: DELETE, data });
+        console.log(formData)
+	const { data } = await api.deleteWorkspace(formData);
+	dispatch({ type: DELETE, payload: data });
     } catch (error) {
 	console.log(error);
     }
 };
+
+export const openWorkspace = (workspace) => async (dispatch) => {
+    try{
+	dispatch({ type: open, payload: workspace });
+    }catch (error){
+        console.log(error)
+    }
+}

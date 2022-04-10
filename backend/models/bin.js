@@ -3,8 +3,9 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const binSchema = new Schema({
-	name: {type: String, required: true},
-	bins: [String]
+    workspaceId: {type: String, required: true},
+    name: {type: String, required: true},
+    notes: []
 }, {
 	timestamps: false
 });
