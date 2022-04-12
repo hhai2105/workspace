@@ -1,5 +1,6 @@
 import express from 'express';
 import Workspace from '../models/workspace.js';
+import Bin from '../models/workspace.js';
 const router = express.Router();
 
 export const getWorkspaces = async (req,res) =>{
@@ -33,7 +34,12 @@ export const deleteWorkspace = async (req, res) =>{
 	if(workspace.users.filter(user => user === req.userId).length !== 0){
             workspace.users = workspace.users.filter(user => user !== req.userId)
             if(workspace.users.length === 0){
-	        const message = await Workspace.findByIdAndDelete(req.params.id);
+                let message;
+	        const bins = await Bin.find({workspaceId: workspace._id});
+                for(let i = 0; i < bins.length; i++){
+                    message = await Bin.findByIdAndDelete(bins[i]._id);
+                }
+	        message = await Workspace.findByIdAndDelete(req.params.id);
             }else{
 	        const message =await workspace.save();
 	        res.json('workspace deleted');

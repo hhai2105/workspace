@@ -5,8 +5,6 @@ const router = express.Router();
 
 export const getBins = async (req,res) =>{
     try{
-        console.log("running get bins")
-        console.log(req.userId)
         let workspaces = await Workspace.find({userId: req.userId})
         workspaces = workspaces = workspaces.map(workspace => workspace._id)
 	const bin = await Bin.find({workspaceId: {$in: workspaces}});
@@ -20,11 +18,9 @@ export const createBin = async (req,res) => {
     const name = req.body.name;
     const workspaceId = req.body.workspaceId;
     const newBin = new Bin({ name, workspaceId });
-    console.log(newBin)
     try {
         await newBin.save();
         let workspace = await Workspace.findById(req.body.workspaceId)
-        console.log(workspace)
         workspace.bins.push(newBin._id)
 	let message = await workspace.save();
         res.status(201).json(newBin);
@@ -35,9 +31,14 @@ export const createBin = async (req,res) => {
 
 export const deleteBin = async (req, res) =>{
     try{
-	const message = await Bin.findByIdAndDelete(req.params.id);
-	res.json('Bin deleted');
+        const bin = await Bin.findById(req.params.id);
+        const workspace = await Workspace.findById(bin.workspaceId);
+        workspace.bins = workspace.bins.filter(b => b != req.params.id);
+	let message = await workspace.save();
+	message = await Bin.findByIdAndDelete(req.params.id);
+	res.status(201).json({workspace, bin});
     }catch(err){
+        console.log(err)
         res.status(400).json("error: " + err);
     }
 };
@@ -49,6 +50,7 @@ export const updateBin = async (req, res) =>{
 	message =await bin.save();
 	res.json('bin updated');
     }catch(err){
+        console.log(err)
 	res.status(400).json("error: " + err);
     }
 };
