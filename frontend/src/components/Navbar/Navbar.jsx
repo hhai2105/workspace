@@ -59,67 +59,70 @@ function Navbar(){
         navigate("/");
     }
     return(
-	<AppBar position="fixed" variant="dense">
-	    <Toolbar>
-		<Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'flex' } }}>
-                    <MenuItem key="UKG" onClick={() => {navigate("/")}}>
-                        <Typography variant="h6" textAlign="center">Workspace</Typography>
-                    </MenuItem>
+        <>
+	    <AppBar position="fixed" variant="dense">
+	        <Toolbar>
+		    <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'flex' } }}>
+                        <MenuItem key="UKG" onClick={() => {navigate("/")}}>
+                            <Typography variant="h6" textAlign="center">Workspace</Typography>
+                        </MenuItem>
+		        {
+		            user == null?(
+			        <>
+			        </>
+		            ):(
+			        <>
+			            <Workspaces/>
+				    <WorkspaceForm/>
+			        </>
+			    )
+		        }
+		    </Box>
 		    {
-		        user == null?(
+		        user == null? (
 			    <>
+			        <Button component={Link} to={"/authentication"} variant="contained" color="primary">Sign In</Button>
 			    </>
-		        ):(
+		        ) : (
 			    <>
-			        <Workspaces/>
-				<WorkspaceForm/>
+			        <IconButton onClick={handleShowUserMenu}>
+				    {
+				        user?.imageUrl && user?.imageUrl !== ""?(
+					    <Avatar src={user?.imageUrl} ></Avatar>
+				        ):(
+					    <Avatar {...stringAvatar(`${user?.familyName} ${user?.givenName}`)} />
+				        )
+				    }
+			        </IconButton>
+			        <Menu sx={{ mt: '45px' }}
+				      id="menu-appbar"
+				      anchorEl={showUserMenu}
+				      anchorOrigin={{
+				          vertical: 'top',
+				          horizontal: 'right',
+				      }}
+				      keepMounted
+				      transformOrigin={{
+				          vertical: 'top',
+				          horizontal: 'right',
+				      }}
+				      open={Boolean(showUserMenu)}
+				      onClose={handleCloseUserMenu}
+			        >
+				    <MenuItem key="Home" component={Link} to={"/"}>
+				        <Typography textAlign="center">Home</Typography>
+				    </MenuItem>
+				    <MenuItem key="Logout" onClick={signout}>
+				        <Typography textAlign="center">Sign Out</Typography>
+				    </MenuItem>
+			        </Menu>
 			    </>
-			)
+		        )
 		    }
-		</Box>
-		{
-		    user == null? (
-			<>
-			    <Button component={Link} to={"/authentication"} variant="contained" color="primary">Sign In</Button>
-			</>
-		    ) : (
-			<>
-			    <IconButton onClick={handleShowUserMenu}>
-				{
-				    user?.imageUrl && user?.imageUrl !== ""?(
-					<Avatar src={user?.imageUrl} ></Avatar>
-				    ):(
-					<Avatar {...stringAvatar(`${user?.familyName} ${user?.givenName}`)} />
-				    )
-				}
-			    </IconButton>
-			    <Menu sx={{ mt: '45px' }}
-				  id="menu-appbar"
-				  anchorEl={showUserMenu}
-				  anchorOrigin={{
-				      vertical: 'top',
-				      horizontal: 'right',
-				  }}
-				  keepMounted
-				  transformOrigin={{
-				      vertical: 'top',
-				      horizontal: 'right',
-				  }}
-				  open={Boolean(showUserMenu)}
-				  onClose={handleCloseUserMenu}
-			    >
-				<MenuItem key="Home" component={Link} to={"/"}>
-				    <Typography textAlign="center">Home</Typography>
-				</MenuItem>
-				<MenuItem key="Logout" onClick={signout}>
-				    <Typography textAlign="center">Sign Out</Typography>
-				</MenuItem>
-			    </Menu>
-			</>
-		    )
-		}
-	    </Toolbar>
-        </AppBar>
+	        </Toolbar>
+            </AppBar>
+            <Toolbar/>
+        </>
     )
 }
 

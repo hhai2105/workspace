@@ -1,12 +1,18 @@
-import React  from 'react';
+import React, {useEffect}  from 'react';
 import Workspace from './Workspace/Workspace';
-import {getWorkspaces} from '../../actions/Workspaces.js';
-import { useSelector } from 'react-redux';
+import {getWorkspaces} from '../../actions/Workspaces.js'
+import {useSelector, useDispatch} from 'react-redux'
+import {useLocation} from 'react-router'
 import { Menu, Grid, CircularProgress, Box, Button } from '@mui/material';
 
 const Workspaces = () => {
+    const dispatch = useDispatch();
+    const location = useLocation();
+
+    useEffect(() => {
+	dispatch(getWorkspaces());
+    },[location, dispatch]);
     const workspaces = useSelector((state) => state.workspaces.workspaces);
-    const handleClick = () => {};
     return (
 	workspaces.length === 0 ? <CircularProgress /> : (
 	    <>
