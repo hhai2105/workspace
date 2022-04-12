@@ -13,6 +13,7 @@ const Workspaces = () => {
 	dispatch(getWorkspaces());
     },[location, dispatch]);
     const workspaces = useSelector((state) => state.workspaces.workspaces);
+    console.log(workspaces)
     return (
 	workspaces.length === 0 ? <CircularProgress /> : (
 	    <>

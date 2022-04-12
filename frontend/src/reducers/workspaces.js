@@ -22,7 +22,13 @@ const WorkspaceReducers = (state = {workspaces: [], bins: [],openWorkspace: null
     case UPDATE_BIN:
 	return {...state, bins: state.bins.map(bin => bin._id === action.payload._id? action.payload : bin)};
     case DELETE_BIN:
-	return {...state, bins: state.bins.filter(bin => bin._id !== action.payload._id)};
+	return {...state, workspaces: state.workspaces.map((workspace) => {
+            if(workspace._id === action.payload.workspace._id){
+                console.log("inside if")
+                return action.payload.workspace
+            }
+            return workspace
+        }), openWorkspace: action.payload.workspace, bins: state.bins.filter(bin => bin._id !== action.payload.bin._id)};
     default:
 	return state
     }

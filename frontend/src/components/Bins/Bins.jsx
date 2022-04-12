@@ -17,7 +17,7 @@ export default function Bins(){
                     openWorkspace.bins.map(binId => {
                         let b = bins.filter(bin => bin._id === binId)[0]
                         return (
-                            <Grid item xs={2}>
+                            <Grid key={b._id} item xs={2}>
                                 <Bin bin={b}/>
                             </Grid>
                         )

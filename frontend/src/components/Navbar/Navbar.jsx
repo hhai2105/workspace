@@ -1,12 +1,13 @@
 import {SIGNOUT} from '../../constants/actions.js'
 import React, {useState, useEffect} from 'react'
 import {useNavigate, useLocation} from 'react-router'
-import {useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import { Menu, MenuItem, Typography, Toolbar, AppBar, Box, Button, Avatar, IconButton } from '@mui/material'
 import {Link } from 'react-router-dom'
 
-import Workspaces from '../Workspaces/Workspaces.js'
-import WorkspaceForm from '../WorkspacesForm/Form.js'
+import Workspaces from '../Workspaces/Workspaces.jsx'
+import WorkspaceForm from '../WorkspacesForm/Form.jsx'
+import BinsForm from '../BinsForm/Form.jsx'
 
 function Navbar(){
     const dispatch = useDispatch();
@@ -14,6 +15,7 @@ function Navbar(){
     const location = useLocation();
     const [user, setUser] = useState(null);
     const [showUserMenu, setShowUserMenu] = useState(null);
+    const openWorkspace = useSelector(state => state.workspaces.openWorkspace)
 
     function stringToColor(string) {
 	let hash = 0;
@@ -27,12 +29,12 @@ function Navbar(){
 	let color = '#';
 	for (i = 0; i < 3; i += 1) {
 	    const value = (hash >> (i * 8)) & 0xff;
-	    color += `00${value.toString(16)}`.slice(-2);
-	}
-	/* eslint-enable no-bitwise */
+	          color += `00${value.toString(16)}`.slice(-2);
+	      }
+	      /* eslint-enable no-bitwise */
 
-	return color;
-    }
+	      return color;
+          }
 
     function stringAvatar(name) {
 	return {
@@ -74,6 +76,15 @@ function Navbar(){
 			        <>
 			            <Workspaces/>
 				    <WorkspaceForm/>
+                                    {
+                                        openWorkspace?(
+                                            <MenuItem>
+                                                <Typography variant="h6">{openWorkspace.name}</Typography>
+                                            </MenuItem>
+                                        ):(
+                                            <></>
+                                        )
+                                    }
 			        </>
 			    )
 		        }
@@ -85,6 +96,13 @@ function Navbar(){
 			    </>
 		        ) : (
 			    <>
+                                {
+                                    openWorkspace?(
+                                        <BinsForm/>
+                                    ):(
+                                        <></>
+                                    )
+                                }
 			        <IconButton onClick={handleShowUserMenu}>
 				    {
 				        user?.imageUrl && user?.imageUrl !== ""?(
