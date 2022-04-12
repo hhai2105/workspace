@@ -4,6 +4,7 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import notesRouter from './routes/notes.js';
+import binsRouter from './routes/bins.js';
 import workspacesRouter from './routes/workspaces.js';
 import userRouter from './routes/user.js';
 
@@ -17,6 +18,7 @@ app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }))
 app.use(cors());
 app.use(express.json());
 app.use('/notes', notesRouter);
+app.use('/bins', binsRouter);
 app.use('/workspaces', workspacesRouter);
 app.use('/user', userRouter);
 
