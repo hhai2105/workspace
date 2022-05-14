@@ -7,8 +7,8 @@ export const getBins = async (req,res) =>{
     try{
         let workspaces = await Workspace.find({userId: req.userId})
         workspaces = workspaces = workspaces.map(workspace => workspace._id)
-	const bin = await Bin.find({workspaceId: {$in: workspaces}});
-	res.status(200).json(bin);
+	const bins = await Bin.find({workspaceId: {$in: workspaces}});
+	res.status(200).json(bins);
     }catch(err){
 	res.status(400).json("error: " + err);
     }

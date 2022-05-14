@@ -9,7 +9,7 @@ instance.interceptors.request.use((req) => {
     return req;
 });
 
-export const getBins = () => instance.get("/bins");
-export const createBin = (newBin) => instance.post("/bins/add", newBin);
-export const updateBin = (bin) => instance.patch("/bins/update", bin);
-export const deleteBin = (id) => instance.delete(`/bins/delete/${id}`);   
+export const getNotes = () => instance.get("/notes");
+export const createNote = (newNote) => instance.post("/notes/add", newNote);
+export const updateNote = (note) => instance.patch("/notes/update", note);
+export const deleteNote = (id) => instance.delete(`/notes/delete/${id}`);   
